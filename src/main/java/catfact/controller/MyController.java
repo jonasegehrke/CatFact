@@ -17,15 +17,15 @@ public class MyController {
 
     @GetMapping("/getSingle")
     @ResponseBody
-    public String getSingle() {
+    public String getSingle() throws IOException {
         CatFact catFact = new CatFact();
         return catFact.getSingle();
     }
 
     @GetMapping("/getTen")
     @ResponseBody
-    public String getTen() {
+    public String getTen() throws IOException {
         CatFact catFact = new CatFact();
-        return catFact.getTen().get(1).getFact() + "";
+        return catFact.getTen() + "";
     }
 }

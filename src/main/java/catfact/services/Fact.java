@@ -7,12 +7,8 @@ public class Fact {
         this.fact = fact;
     }
 
-    public String getFact() {
-        return fact;
-    }
-
     @Override
     public String toString(){
-        return fact + "\n";
+        return fact + "";
     }
 }
