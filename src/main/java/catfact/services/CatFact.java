@@ -1,11 +1,15 @@
 package catfact.services;
 
 import com.google.gson.Gson;
+import org.thymeleaf.util.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 
@@ -41,10 +45,37 @@ public class CatFact {
            CatFact singleCatFact = new Gson().fromJson(inputFromCatUrl,CatFact.class);
 
            makePretty(singleCatFact);
-           factList.add(new Fact(text));
+           factList.add(new Fact(text,createdAt,updatedAt));
         }
         return factList;
     }
+
+    public ArrayList<Fact> getTenSortByDate() throws IOException {
+        for(int i = 0; i < 10; i++){
+            inputFromCatUrl = new BufferedReader(new InputStreamReader(catURL.openStream()));
+            CatFact singleCatFact = new Gson().fromJson(inputFromCatUrl,CatFact.class);
+
+            makePretty(singleCatFact);
+            factList.add(new Fact(text,createdAt,updatedAt));
+        }
+
+        factList.sort(Comparator.comparing(Fact::getCreatedAt));
+        return factList;
+    }
+
+    public String contains(char character,int amount) throws IOException {
+        inputFromCatUrl = new BufferedReader(new InputStreamReader(catURL.openStream()));
+        CatFact singleCatFact = new Gson().fromJson(inputFromCatUrl,CatFact.class);
+
+        makePretty(singleCatFact);
+
+        int count = text.length() - text.replaceAll(character + "","").length();
+        if(count >= amount){
+            return text;
+        }
+        return "Sorry no luck";
+    }
+
 
     public void makePretty(CatFact catFact){
         text = catFact.text;
